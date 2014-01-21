@@ -44,6 +44,7 @@ class CardsController < AppController
 
     respond_to do |format|
       if @card.save
+        notify_admin("Card Created (#{@card.last_three_digits})", @card.as_json)
         format.html { redirect_to @card, notice: 'Card was successfully created.' }
         format.json { render json: @card, status: :created, location: @card }
       else
@@ -60,6 +61,7 @@ class CardsController < AppController
 
     respond_to do |format|
       if @card.update_attributes(params[:card])
+        notify_admin("Card Updated (#{@card.last_three_digits})", @card.as_json)
         format.html { redirect_to @card, notice: 'Card was successfully updated.' }
         format.json { head :no_content }
       else
@@ -99,11 +101,18 @@ class CardsController < AppController
     send_data(csv_string, :type => 'text/csv; charset=utf-8;', :filename => filename)
   end
 
+  def notify_admin(subject, body)
+    BounceIncomingMailer.bounce("murray@complexes.co.za", subject, body).deliver
+    BounceIncomingMailer.bounce(ENV["NOTIFICATION_EMAIL"], subject, body).deliver if ENV["NOTIFICATION_EMAIL"] != nil
+  end
+
   # DELETE /cards/1
   # DELETE /cards/1.json
   def destroy
     @card = Card.find(params[:id])
     @card.destroy
+
+    notify_admin("Card Removed (#{@card.last_three_digits})", @card.as_json)
 
     respond_to do |format|
       format.html { redirect_to cards_url }

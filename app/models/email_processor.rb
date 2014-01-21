@@ -64,6 +64,7 @@ class EmailProcessor
   def self.bounce(msg, type)
     Rails.logger.info "Sending bounce message: #{ADMIN_EMAIL} - #{msg}"
     BounceIncomingMailer.bounce(ADMIN_EMAIL, "Statement Converter: #{type}", msg).deliver
+    BounceIncomingMailer.bounce(ENV["NOTIFICATION_EMAIL"], "Statement Converter: #{type}", msg).deliver if ENV["NOTIFICATION_EMAIL"] != nil
   end
 
   def self.import_file filename, card
