@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Last three digits:</b>
+  <%= @card.last_three_digits %>
+</p>
+
+<p>
+  <b>Card number:</b>
+  <%= @card.card_number %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%= @card.password %>
+</p>
+
+
+<%= link_to 'Edit', edit_card_path(@card) %> |
+<%= link_to 'Back', cards_path %>

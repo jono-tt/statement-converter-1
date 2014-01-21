@@ -1,0 +1,21 @@
+<h1>Download Statement: (<%= @card.last_three_digits %>)</h1>
+
+
+<%= form_tag "download_file" do %>
+  <div>
+    <div style="float: left">
+      <h3>From:</h3>
+      <input type="date" name="from_date">
+    </div>
+    <div style="float:left;">
+      <h3>To:</h3>
+      <input type="date" name="to_date">
+    </div>
+  </div>
+  <div style="clear: both" />
+  <div class="actions">
+    <%= submit_tag "Download" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', cards_path %>
