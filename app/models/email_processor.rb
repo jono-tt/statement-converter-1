@@ -2,48 +2,44 @@ class EmailProcessor
   ADMIN_EMAIL = "support@complexes.co.za"
 
   def self.process(email)
-    if email.from != "ibsupport@standardbank.co.za"
-      error "Email not from StandardBank: #{email.from}"
-    else
-      #Subject: 
-      # Your Standard Bank Provisional Statement - 2014-01-13(Card No......130)
-      match = email.subject.match(/.*(\d{3})\)/)
+    #Subject: 
+    # Your Standard Bank Provisional Statement - 2014-01-13(Card No......130)
+    match = email.subject.match(/.*(\d{3})\)/)
 
-      if match != nil
-        card = Card.find_by_last_three_digits(match[1])
+    if match != nil
+      card = Card.find_by_last_three_digits(match[1])
 
-        if(card != nil)
-          emcs = email.attachments.select { |file| file.original_filename.match(/emc$/) }
+      if(card != nil)
+        emcs = email.attachments.select { |file| file.original_filename.match(/emc$/) }
 
-          if(emcs.length == 0)
-            error "Unable to find any attachments"
-          else
-            msg = ""
-            emcs.each { | emc_file |
-              begin
-                Dir.mktmpdir { |tmp_dir|
-                  csv_files = self.extract_emc_csv_files(emc_file.path, tmp_dir, card)
-
-                  csv_files.each { |csv_file|
-                    import_file(csv_file, card)
-                    msg += "File Imported: #{File.basename(csv_file)} \n"
-                  }
-
-                  msg += "File Import Complete for: #{File.basename(emc_file.path)}"
-                  bounce(msg, "Success - (#{card.last_three_digits})")
-                }
-              rescue Exception => e
-                puts e.to_s
-                error(e.to_s, "Error - (#{card.last_three_digits})")
-              end
-            }
-          end
+        if(emcs.length == 0)
+          error "Unable to find any attachments"
         else
-          error "Unable to find card for digits: #{match[1]}"
+          msg = ""
+          emcs.each { | emc_file |
+            begin
+              Dir.mktmpdir { |tmp_dir|
+                csv_files = self.extract_emc_csv_files(emc_file.path, tmp_dir, card)
+
+                csv_files.each { |csv_file|
+                  import_file(csv_file, card)
+                  msg += "File Imported: #{File.basename(csv_file)} \n"
+                }
+
+                msg += "File Import Complete for: #{File.basename(emc_file.path)}"
+                bounce(msg, "Success - (#{card.last_three_digits})")
+              }
+            rescue Exception => e
+              puts e.to_s
+              error(e.to_s, "Error - (#{card.last_three_digits})")
+            end
+          }
         end
       else
-        error "Unable to find last three digits in the subject: #{email.subject}"
+        error "Unable to find card for digits: #{match[1]}"
       end
+    else
+      error "Unable to find last three digits in the subject: #{email.subject}"
     end
   end
 
