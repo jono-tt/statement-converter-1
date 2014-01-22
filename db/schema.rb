@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140118203831) do
+ActiveRecord::Schema.define(:version => 20140122085840) do
 
   create_table "cards", :force => true do |t|
     t.string   "last_three_digits", :null => false
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20140118203831) do
     t.string   "password",          :null => false
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
+    t.string   "account_name"
   end
 
   add_index "cards", ["last_three_digits"], :name => "index_cards_on_last_three_digits", :unique => true

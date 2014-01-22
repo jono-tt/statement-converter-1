@@ -15,24 +15,26 @@ class EmailProcessor
         if(emcs.length == 0)
           error "Unable to find any attachments"
         else
-          msg = ""
           emcs.each { | emc_file |
+            msg = ""
+            statement_items = []
+
             begin
               Dir.mktmpdir { |tmp_dir|
                 csv_files = self.extract_emc_csv_files(emc_file.path, tmp_dir, card)
 
                 csv_files.each { |csv_file|
-                  import_file(csv_file, card)
+                  statement_items.concat import_file(csv_file, card)
                   msg += "File Imported: #{File.basename(csv_file)} \n"
                 }
 
                 msg += "File Import Complete for: #{File.basename(emc_file.path)}"
-                bounce(msg, "Success - (#{card.last_three_digits})")
               }
             rescue Exception => e
-              puts e.to_s
               error(e.to_s, "Error - (#{card.last_three_digits})")
             end
+
+            bounce_with_attachment(msg, "Success - (#{card.last_three_digits})", "#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv", statement_items)
           }
         end
       else
@@ -67,6 +69,18 @@ class EmailProcessor
     BounceIncomingMailer.bounce(ENV["NOTIFICATION_EMAIL"], "Statement Converter: #{type}", msg).deliver if ENV["NOTIFICATION_EMAIL"] != nil
   end
 
+  def self.bounce_with_attachment(msg, type, attachment_name, statement_items)
+    attachment = {
+      :filename => attachment_name,
+      :mime_type => "application/csv",
+      :content => StatementItemsHelper.generate_csv(statement_items)
+    }
+
+    Rails.logger.info "Sending bounce message with attachment: #{ADMIN_EMAIL} - #{msg}"
+    BounceIncomingMailer.bounce(ADMIN_EMAIL, "Statement Converter: #{type}", msg, attachment).deliver
+    BounceIncomingMailer.bounce(ENV["NOTIFICATION_EMAIL"], "Statement Converter: #{type}", msg, attachment).deliver if ENV["NOTIFICATION_EMAIL"] != nil
+  end
+
   def self.import_file filename, card
     #ROW Starts At 21 (index 20)
     lines = IO.readlines(filename)
@@ -99,6 +113,7 @@ class EmailProcessor
 
     #get date so we can calculate short dates
     date = Date.parse(rows[date_index][1])
+    statement_items = []
 
     rows[index_of_first_line..100000].each do | row |
       if row[2] != ""
@@ -110,8 +125,12 @@ class EmailProcessor
 
         desc = row[0].gsub(/\W*$/, "").gsub("  ", "")
 
-        card.statement_items << StatementItem.new(description: desc, amount: row[2], transaction_type: row[3], transaction_date: trans_date, balance: row[5])
+        statement_item = StatementItem.new(description: desc, amount: row[2], transaction_type: row[3], transaction_date: trans_date, balance: row[5])
+        statement_items << statement_item
+        card.statement_items << statement_item
       end
     end
+
+    return statement_items
   end
 end

@@ -1,5 +1,6 @@
 <table>
   <tr>
+    <th>Account Name</th>
     <th>Last three digits</th>
     <th>Card number</th>
     <th></th>
@@ -9,6 +10,7 @@
 
 <% @cards.each do |card| %>
   <tr>
+    <td><%= card.account_name %></td>
     <td><%= card.last_three_digits %></td>
     <td><%= card.card_number %></td>
     <td><%= link_to 'Show', card %></td>

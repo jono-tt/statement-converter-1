@@ -65,13 +65,22 @@ describe EmailProcessor do
 
   it "should extract csv files" do
     email = build(:email, :with_attachment)
+    emcs = email.attachments.select { |file| file.original_filename.match(/emc$/) }
+
+    card = Card.find_by_last_three_digits("123")
+
     dir = Rails.root.join('spec/fixtures', '*.csv')
 
-    EmailProcessor.should_receive(:bounce).with(an_instance_of(String), "Success - (123)")
+    EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_name, statement_items |
+      type.should == "Success - (123)"
+      attachment_name.should == "#{card.account_name}-c123_#{File.basename(emcs[0].path)}.csv"
+      statement_items.length.should == 13
+      statement_items.should == card.statement_items
+    end
+
     EmailProcessor.should_receive(:extract_emc_csv_files).and_return(Dir.glob(dir))
     EmailProcessor.process(email)
 
-    card = Card.find_by_last_three_digits("123")
     card.statement_items.length.should == 13
 
     item = card.statement_items[0]

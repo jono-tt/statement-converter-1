@@ -85,17 +85,7 @@ class CardsController < AppController
 
     statement_items = @card.statement_items.where("transaction_date >= ? and transaction_date <= ?", params[:from_date], params[:to_date])
 
-    csv_string = CSV.generate do |csv|
-      statement_items.each do |entry|
-        if entry.transaction_type == "DR"
-          val = "-#{entry.amount}"
-        else
-          val = "#{entry.amount}"
-        end
-
-        csv << [entry.transaction_date, val, "", "", "", entry.description ]
-      end
-    end
+    csv_string = StatementItemsHelper.generate_csv(statement_items)
 
     filename = "import-file_#{@card.last_three_digits}_#{params[:from_date]}_#{params[:to_date]}.csv"
     send_data(csv_string, :type => 'text/csv; charset=utf-8;', :filename => filename)
