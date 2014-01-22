@@ -59,7 +59,7 @@ describe EmailProcessor do
 
   it "should decrypt email attachment" do
     email = build(:email, :with_attachment)
-    EmailProcessor.should_receive(:error).with(an_instance_of(String), "Error - (123)")
+    EmailProcessor.should_receive(:error).with(an_instance_of(String), "Error - (#{@card.account_name}: 123)")
     EmailProcessor.process(email)
   end
 
@@ -72,8 +72,8 @@ describe EmailProcessor do
     dir = Rails.root.join('spec/fixtures', '*.csv')
 
     EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_name, statement_items |
-      type.should == "Success - (123)"
-      attachment_name.should == "#{card.account_name}-c123_#{File.basename(emcs[0].path)}.csv"
+      type.should == "Success - (#{@card.account_name}: 123)"
+      attachment_name.should == "#{@card.account_name}-c123_#{File.basename(emcs[0].path)}.csv"
       statement_items.length.should == 13
       statement_items.should == card.statement_items
     end

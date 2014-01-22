@@ -31,10 +31,10 @@ class EmailProcessor
                 msg += "File Import Complete for: #{File.basename(emc_file.path)}"
               }
             rescue Exception => e
-              error(e.to_s, "Error - (#{card.last_three_digits})")
+              error(e.to_s, "Error - (#{card.account_name}: #{card.last_three_digits})")
             end
 
-            bounce_with_attachment(msg, "Success - (#{card.last_three_digits})", "#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv", statement_items)
+            bounce_with_attachment(msg, "Success - (#{card.account_name}: #{card.last_three_digits})", "#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv", statement_items)
           }
         end
       else
