@@ -1,5 +1,5 @@
 class EmailProcessor
-  ADMIN_EMAIL = "support@complexes.co.za"
+  ADMIN_EMAIL = "import@complexes.co.za"
 
   def self.process(email)
     #Subject: 
@@ -18,6 +18,7 @@ class EmailProcessor
           emcs.each { | emc_file |
             msg = ""
             statement_items = []
+            files_processed = 0
 
             begin
               Dir.mktmpdir { |tmp_dir|
@@ -26,15 +27,21 @@ class EmailProcessor
                 csv_files.each { |csv_file|
                   statement_items.concat import_file(csv_file, card)
                   msg += "File Imported: #{File.basename(csv_file)} \n"
+                  files_processed += 1
                 }
 
                 msg += "File Import Complete for: #{File.basename(emc_file.path)}"
               }
             rescue Exception => e
               error(e.to_s, "Error - (#{card.account_name}: #{card.last_three_digits})")
+              return
             end
 
-            bounce_with_attachment(msg, "Success - (#{card.account_name}: #{card.last_three_digits})", "#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv", statement_items)
+            if files_processed > 0
+              bounce_with_attachment(msg, "Success - (#{card.account_name}: #{card.last_three_digits})", "#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv", statement_items)
+            else
+              error "No csv files found to process", "Error - (#{card.account_name}: #{card.last_three_digits})"
+            end
           }
         end
       else

@@ -51,8 +51,8 @@ describe EmailProcessor do
     bouncer = Object.new
     bouncer.should_receive(:deliver)
 
-    Rails.logger.should_receive(:info).with "Sending bounce message: support@complexes.co.za - Foo Message"
-    BounceIncomingMailer.should_receive(:bounce).with("support@complexes.co.za", "Statement Converter: Success", "Foo Message").and_return bouncer
+    Rails.logger.should_receive(:info).with "Sending bounce message: import@complexes.co.za - Foo Message"
+    BounceIncomingMailer.should_receive(:bounce).with("import@complexes.co.za", "Statement Converter: Success", "Foo Message").and_return bouncer
 
     EmailProcessor.bounce("Foo Message", "Success")
   end
@@ -60,6 +60,18 @@ describe EmailProcessor do
   it "should decrypt email attachment" do
     email = build(:email, :with_attachment)
     EmailProcessor.should_receive(:error).with(an_instance_of(String), "Error - (#{@card.account_name}: 123)")
+    EmailProcessor.process(email)
+  end
+
+  it "should bound error if no csv files found" do
+    email = build(:email, :with_attachment)
+    emcs = email.attachments.select { |file| file.original_filename.match(/emc$/) }
+
+    card = Card.find_by_last_three_digits("123")
+
+    EmailProcessor.should_receive(:error).with("No csv files found to process", "Error - (#{@card.account_name}: 123)")
+
+    EmailProcessor.should_receive(:extract_emc_csv_files).and_return([])
     EmailProcessor.process(email)
   end
 
