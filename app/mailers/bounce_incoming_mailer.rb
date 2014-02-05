@@ -1,9 +1,11 @@
 class BounceIncomingMailer < ActionMailer::Base
   default from: "Statements <statements@complexes.co.za>"
 
-  def bounce(recipient, subject, message, attachment = nil)
-    if attachment != nil
-      add_attachment(attachment)
+  def bounce(recipient, subject, message, attachments = nil)
+    if attachments != nil
+      attachments.each { |attachment|
+        add_attachment(attachment)
+      }
     end
       
     mail(to: recipient, subject: subject, body: message)

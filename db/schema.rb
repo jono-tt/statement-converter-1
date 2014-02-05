@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140122085840) do
+ActiveRecord::Schema.define(:version => 20140205010940) do
 
   create_table "cards", :force => true do |t|
     t.string   "last_three_digits", :null => false
@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(:version => 20140122085840) do
     t.integer  "card_id"
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
+    t.string   "statement_type"
   end
 
   add_index "statement_items", ["amount", "balance", "transaction_date"], :name => "index_statement_items_on_amount_and_balance_and_transaction_date"
+  add_index "statement_items", ["card_id", "transaction_date", "statement_type"], :name => "cid_and_trans_date_and_stype"
 
 end

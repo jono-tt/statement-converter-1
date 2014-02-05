@@ -83,11 +83,18 @@ describe EmailProcessor do
 
     dir = Rails.root.join('spec/fixtures', '*.csv')
 
-    EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_name, statement_items |
+    EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_base_name, imported_files |
       type.should == "Success - (#{@card.account_name}: 123)"
-      attachment_name.should == "#{@card.account_name}-c123_#{File.basename(emcs[0].path)}.csv"
-      statement_items.length.should == 13
-      statement_items.should == card.statement_items
+      attachment_base_name.should == "#{@card.account_name}-c123_#{File.basename(emcs[0].path)}"
+      imported_files.length.should == 2
+
+      #TYPE: MARKETLINK
+      imported_files[0][:statement_items].length.should == 5
+      imported_files[0][:statement_type].should == "MARKETLINK"
+
+      #TYPE: CURRENT ACC
+      imported_files[1][:statement_items].length.should == 8
+      imported_files[1][:statement_type].should == "CURRENT ACC"
     end
 
     EmailProcessor.should_receive(:extract_emc_csv_files).and_return(Dir.glob(dir))
@@ -100,11 +107,13 @@ describe EmailProcessor do
     item.balance.should == 93349.47
     item.amount.should == 307.76
     item.transaction_date.should == Date.parse("02 December 2013")
+    item.statement_type.should == "MARKETLINK"
 
     item = card.statement_items[10]
     item.description.should == "CREDIT TRANSFER ABSA BANK MI Madondo"
     item.balance.should == 14259.46
     item.amount.should == 1000
     item.transaction_date.should == Date.parse("07 Jan 2014")
+    item.statement_type.should == "CURRENT ACC"
   end
 end

@@ -1,21 +1,30 @@
-<h1>Download Statement: (<%= @card.last_three_digits %>)</h1>
+<div class="sc-a-download">
+  <h1>Download Statement: (<%= @card.last_three_digits %>)</h1>
 
-
-<%= form_tag "download_file" do %>
-  <div>
-    <div style="float: left">
-      <h3>From:</h3>
-      <input type="date" name="from_date">
+  <%= form_tag "download_file" do %>
+    <div class="sc-a-form-item">
+      <h3>Type:</h3>
+      <select name="statement_type">
+        <option value=""></option>
+        <option value="MARKETLINK">MARKETLINK</option>
+        <option value="CURRENT ACC">CURRENT ACC</option>
+      </select>
     </div>
-    <div style="float:left;">
-      <h3>To:</h3>
-      <input type="date" name="to_date">
+    <div class="sc-a-form-item">
+      <div style="float: left">
+        <h3>From:</h3>
+        <input type="date" name="from_date">
+      </div>
+      <div style="float:left;">
+        <h3>To:</h3>
+        <input type="date" name="to_date">
+      </div>
     </div>
-  </div>
-  <div style="clear: both" />
-  <div class="actions">
-    <%= submit_tag "Download" %>
-  </div>
-<% end %>
+    <div style="clear: both" />
+    <div class="actions sc-a-form-item">
+      <%= submit_tag "Download" %>
+    </div>
+  <% end %>
 
-<%= link_to 'Back', cards_path %>
+  <%= link_to 'Back', cards_path %>
+</div>

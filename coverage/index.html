@@ -14,14 +14,14 @@
       <img src="./assets/0.8.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2014-01-23T15:12:37+02:00">2014-01-23T15:12:37+02:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2014-02-04T21:42:57-05:00">2014-02-04T21:42:57-05:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">92.92%</span></span>
+    (<span class="covered_percent"><span class="green">91.43%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
@@ -32,9 +32,9 @@
   <a name="AllFiles"></a>
   <div>
     <b>33</b> files in total.
-    <b>367</b> relevant lines. 
-    <span class="green"><b>341</b> lines covered</span> and
-    <span class="red"><b>26</b> lines missed </span>
+    <b>385</b> relevant lines. 
+    <span class="green"><b>352</b> lines covered</span> and
+    <span class="red"><b>33</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -112,12 +112,12 @@
       
       <tr>
         <td class="strong"><a href="#b455cf29e9dec7745bfc0d0c3cb1a89b32167c2b" class="src_link" title="app/mailers/bounce_incoming_mailer.rb">app/mailers/bounce_incoming_mailer.rb</a></td>
-        <td class="red strong">75.0 %</td>
-        <td>15</td>
-        <td>8</td>
+        <td class="red strong">66.67 %</td>
+        <td>17</td>
+        <td>9</td>
         <td>6</td>
-        <td>2</td>
-        <td>2.3</td>
+        <td>3</td>
+        <td>2.0</td>
       </tr>
       
       <tr>
@@ -132,12 +132,12 @@
       
       <tr>
         <td class="strong"><a href="#b574cd4e586427016d1da561ab72f00231374343" class="src_link" title="app/models/email_processor.rb">app/models/email_processor.rb</a></td>
-        <td class="green strong">92.31 %</td>
-        <td>143</td>
+        <td class="yellow strong">86.67 %</td>
+        <td>161</td>
+        <td>90</td>
         <td>78</td>
-        <td>72</td>
-        <td>6</td>
-        <td>7.2</td>
+        <td>12</td>
+        <td>6.8</td>
       </tr>
       
       <tr>
@@ -313,11 +313,11 @@
       <tr>
         <td class="strong"><a href="#449f9e627e2ea48fca275a8632b3df3106b53493" class="src_link" title="spec/models/email_processor_spec.rb">spec/models/email_processor_spec.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>110</td>
-        <td>67</td>
-        <td>67</td>
+        <td>119</td>
+        <td>72</td>
+        <td>72</td>
         <td>0</td>
-        <td>1.3</td>
+        <td>1.2</td>
       </tr>
       
       <tr>
@@ -1031,7 +1031,7 @@
         <li class="missed" data-hits="0" data-linenumber="86">
           
           
-          <code class="ruby">    statement_items = @card.statement_items.where(&quot;transaction_date &gt;= ? and transaction_date &lt;= ?&quot;, params[:from_date], params[:to_date])</code>
+          <code class="ruby">    statement_items = @card.statement_items.where(&quot;transaction_date &gt;= ? and transaction_date &lt;= ? and statement_type = ?&quot;, params[:from_date], params[:to_date], params[:statement_type])</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="87">
@@ -1055,7 +1055,7 @@
         <li class="missed" data-hits="0" data-linenumber="90">
           
           
-          <code class="ruby">    filename = &quot;import-file_#{@card.last_three_digits}_#{params[:from_date]}_#{params[:to_date]}.csv&quot;</code>
+          <code class="ruby">    filename = &quot;statement_c#{@card.last_three_digits}_#{params[:statement_type]}_#{params[:from_date]}_#{params[:to_date]}.csv&quot;</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="91">
@@ -1377,11 +1377,11 @@
         <div class="source_table" id="b455cf29e9dec7745bfc0d0c3cb1a89b32167c2b">
   <div class="header">
     <h3>app/mailers/bounce_incoming_mailer.rb</h3>
-    <h4><span class="red">75.0 %</span> covered</h4>
+    <h4><span class="red">66.67 %</span> covered</h4>
     <div>
-      <b>8</b> relevant lines. 
+      <b>9</b> relevant lines. 
       <span class="green"><b>6</b> lines covered</span> and
-      <span class="red"><b>2</b> lines missed.</span>
+      <span class="red"><b>3</b> lines missed.</span>
     </div>
   </div>
   
@@ -1409,70 +1409,82 @@
         <li class="covered" data-hits="1" data-linenumber="4">
           <span class="hits">1</span>
           
-          <code class="ruby">  def bounce(recipient, subject, message, attachment = nil)</code>
+          <code class="ruby">  def bounce(recipient, subject, message, attachments = nil)</code>
         </li>
       
         <li class="covered" data-hits="7" data-linenumber="5">
           <span class="hits">7</span>
           
-          <code class="ruby">    if attachment != nil</code>
+          <code class="ruby">    if attachments != nil</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="6">
           
           
-          <code class="ruby">      add_attachment(attachment)</code>
+          <code class="ruby">      attachments.each { |attachment|</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="7">
+        <li class="missed" data-hits="0" data-linenumber="7">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">        add_attachment(attachment)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="8">
           
           
-          <code class="ruby">      </code>
+          <code class="ruby">      }</code>
         </li>
       
-        <li class="covered" data-hits="7" data-linenumber="9">
-          <span class="hits">7</span>
+        <li class="never" data-hits="" data-linenumber="9">
           
-          <code class="ruby">    mail(to: recipient, subject: subject, body: message)</code>
+          
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="10">
           
           
+          <code class="ruby">      </code>
+        </li>
+      
+        <li class="covered" data-hits="7" data-linenumber="11">
+          <span class="hits">7</span>
+          
+          <code class="ruby">    mail(to: recipient, subject: subject, body: message)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="12">
+          
+          
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="11">
+        <li class="never" data-hits="" data-linenumber="13">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="12">
+        <li class="covered" data-hits="1" data-linenumber="14">
           <span class="hits">1</span>
           
           <code class="ruby">  def add_attachment(attachment)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="13">
+        <li class="missed" data-hits="0" data-linenumber="15">
           
           
           <code class="ruby">    attachments[attachment[:filename]] = {:mime_type =&gt; attachment[:mime_type], :content =&gt; attachment[:content] }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="14">
+        <li class="never" data-hits="" data-linenumber="16">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="15">
+        <li class="never" data-hits="" data-linenumber="17">
           
           
           <code class="ruby">end</code>
@@ -1545,11 +1557,11 @@
         <div class="source_table" id="b574cd4e586427016d1da561ab72f00231374343">
   <div class="header">
     <h3>app/models/email_processor.rb</h3>
-    <h4><span class="green">92.31 %</span> covered</h4>
+    <h4><span class="yellow">86.67 %</span> covered</h4>
     <div>
-      <b>78</b> relevant lines. 
-      <span class="green"><b>72</b> lines covered</span> and
-      <span class="red"><b>6</b> lines missed.</span>
+      <b>90</b> relevant lines. 
+      <span class="green"><b>78</b> lines covered</span> and
+      <span class="red"><b>12</b> lines missed.</span>
     </div>
   </div>
   
@@ -1673,7 +1685,7 @@
         <li class="covered" data-hits="3" data-linenumber="20">
           <span class="hits">3</span>
           
-          <code class="ruby">            statement_items = []</code>
+          <code class="ruby">            imported_files = []</code>
         </li>
       
         <li class="covered" data-hits="3" data-linenumber="21">
@@ -1721,451 +1733,451 @@
         <li class="covered" data-hits="2" data-linenumber="28">
           <span class="hits">2</span>
           
-          <code class="ruby">                  statement_items.concat import_file(csv_file, card)</code>
+          <code class="ruby">                  imported_file = import_file(csv_file, card)</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="29">
           <span class="hits">2</span>
           
-          <code class="ruby">                  msg += &quot;File Imported: #{File.basename(csv_file)} \n&quot;</code>
+          <code class="ruby">                  imported_files.push imported_file</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="30">
+        <li class="never" data-hits="" data-linenumber="30">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="31">
+          <span class="hits">2</span>
+          
+          <code class="ruby">                  msg += &quot;File Imported: #{imported_file[:statement_type]}: #{File.basename(csv_file)} \n&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="32">
           <span class="hits">2</span>
           
           <code class="ruby">                  files_processed += 1</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="31">
+        <li class="never" data-hits="" data-linenumber="33">
           
           
           <code class="ruby">                }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="32">
+        <li class="never" data-hits="" data-linenumber="34">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="33">
+        <li class="covered" data-hits="2" data-linenumber="35">
           <span class="hits">2</span>
           
           <code class="ruby">                msg += &quot;File Import Complete for: #{File.basename(emc_file.path)}&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="34">
+        <li class="never" data-hits="" data-linenumber="36">
           
           
           <code class="ruby">              }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="35">
+        <li class="never" data-hits="" data-linenumber="37">
           
           
           <code class="ruby">            rescue Exception =&gt; e</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="36">
+        <li class="covered" data-hits="1" data-linenumber="38">
           <span class="hits">1</span>
           
           <code class="ruby">              error(e.to_s, &quot;Error - (#{card.account_name}: #{card.last_three_digits})&quot;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="37">
+        <li class="covered" data-hits="1" data-linenumber="39">
           <span class="hits">1</span>
           
           <code class="ruby">              return</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="38">
+        <li class="never" data-hits="" data-linenumber="40">
           
           
           <code class="ruby">            end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="39">
+        <li class="never" data-hits="" data-linenumber="41">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="40">
+        <li class="covered" data-hits="2" data-linenumber="42">
           <span class="hits">2</span>
           
           <code class="ruby">            if files_processed &gt; 0</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="41">
-          <span class="hits">1</span>
-          
-          <code class="ruby">              bounce_with_attachment(msg, &quot;Success - (#{card.account_name}: #{card.last_three_digits})&quot;, &quot;#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}.csv&quot;, statement_items)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="42">
-          
-          
-          <code class="ruby">            else</code>
-        </li>
-      
         <li class="covered" data-hits="1" data-linenumber="43">
           <span class="hits">1</span>
           
-          <code class="ruby">              error &quot;No csv files found to process&quot;, &quot;Error - (#{card.account_name}: #{card.last_three_digits})&quot;</code>
+          <code class="ruby">              bounce_with_attachment(msg, &quot;Success - (#{card.account_name}: #{card.last_three_digits})&quot;, &quot;#{card.account_name}-c#{card.last_three_digits}_#{File.basename(emc_file.path)}&quot;, imported_files)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="44">
           
           
-          <code class="ruby">            end</code>
+          <code class="ruby">            else</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="45">
+        <li class="covered" data-hits="1" data-linenumber="45">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">          }</code>
+          <code class="ruby">              error &quot;No csv files found to process&quot;, &quot;Error - (#{card.account_name}: #{card.last_three_digits})&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="46">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">            end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="47">
           
           
-          <code class="ruby">      else</code>
+          <code class="ruby">          }</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="48">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="48">
           
-          <code class="ruby">        error &quot;Unable to find card for digits: #{match[1]}&quot;</code>
+          
+          <code class="ruby">        end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="49">
           
           
-          <code class="ruby">      end</code>
+          <code class="ruby">      else</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="50">
-          
-          
-          <code class="ruby">    else</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="51">
+        <li class="covered" data-hits="1" data-linenumber="50">
           <span class="hits">1</span>
           
-          <code class="ruby">      error &quot;Unable to find last three digits in the subject: #{email.subject}&quot;</code>
+          <code class="ruby">        error &quot;Unable to find card for digits: #{match[1]}&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="51">
+          
+          
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="52">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">    else</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="53">
+        <li class="covered" data-hits="1" data-linenumber="53">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">      error &quot;Unable to find last three digits in the subject: #{email.subject}&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="54">
           
           
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="55">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="56">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="55">
+        <li class="covered" data-hits="1" data-linenumber="57">
           <span class="hits">1</span>
           
           <code class="ruby">  def self.extract_emc_csv_files(file, tmp_dir, card)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="56">
+        <li class="covered" data-hits="1" data-linenumber="58">
           <span class="hits">1</span>
           
           <code class="ruby">    output = `striata-readerc -outdir=&quot;#{tmp_dir}&quot; -username=&quot;#{card.card_number}&quot; -password=&quot;#{card.password}&quot; &quot;#{file}&quot;`</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="57">
+        <li class="never" data-hits="" data-linenumber="59">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="58">
+        <li class="covered" data-hits="1" data-linenumber="60">
           <span class="hits">1</span>
           
           <code class="ruby">    if $?.exitstatus != 0</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="59">
+        <li class="covered" data-hits="1" data-linenumber="61">
           <span class="hits">1</span>
           
           <code class="ruby">      raise &quot;Decrypt Error: #{output}&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="60">
+        <li class="never" data-hits="" data-linenumber="62">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="never" data-hits="" data-linenumber="63">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="62">
+        <li class="never" data-hits="" data-linenumber="64">
           
           
           <code class="ruby">    #we can get all the extracted CSV files</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="63">
+        <li class="missed" data-hits="0" data-linenumber="65">
           
           
           <code class="ruby">    dir = Rails.root.join(tmp_dir, &#39;*.csv&#39;)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="64">
+        <li class="missed" data-hits="0" data-linenumber="66">
           
           
           <code class="ruby">    return Dir.glob(dir)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="65">
+        <li class="never" data-hits="" data-linenumber="67">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="66">
+        <li class="never" data-hits="" data-linenumber="68">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="67">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.error(msg, subject = &quot;Error&quot;)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="68">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    msg = &quot;Error: #{msg}&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="69">
           <span class="hits">1</span>
           
-          <code class="ruby">    Rails.logger.error(msg)</code>
+          <code class="ruby">  def self.error(msg, subject = &quot;Error&quot;)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="70">
           <span class="hits">1</span>
           
+          <code class="ruby">    msg = &quot;Error: #{msg}&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="71">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    Rails.logger.error(msg)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="72">
+          <span class="hits">1</span>
+          
           <code class="ruby">    bounce(msg, subject)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="71">
+        <li class="never" data-hits="" data-linenumber="73">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="72">
+        <li class="never" data-hits="" data-linenumber="74">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="73">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.bounce(msg, type)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="74">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    Rails.logger.info &quot;Sending bounce message: #{ADMIN_EMAIL} - #{msg}&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="75">
           <span class="hits">1</span>
           
-          <code class="ruby">    BounceIncomingMailer.bounce(ADMIN_EMAIL, &quot;Statement Converter: #{type}&quot;, msg).deliver</code>
+          <code class="ruby">  def self.bounce(msg, type)</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="76">
           <span class="hits">1</span>
           
+          <code class="ruby">    Rails.logger.info &quot;Sending bounce message: #{ADMIN_EMAIL} - #{msg}&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="77">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    BounceIncomingMailer.bounce(ADMIN_EMAIL, &quot;Statement Converter: #{type}&quot;, msg).deliver</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="78">
+          <span class="hits">1</span>
+          
           <code class="ruby">    BounceIncomingMailer.bounce(ENV[&quot;NOTIFICATION_EMAIL&quot;], &quot;Statement Converter: #{type}&quot;, msg).deliver if ENV[&quot;NOTIFICATION_EMAIL&quot;] != nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="77">
+        <li class="never" data-hits="" data-linenumber="79">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="78">
+        <li class="never" data-hits="" data-linenumber="80">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="79">
+        <li class="covered" data-hits="1" data-linenumber="81">
           <span class="hits">1</span>
           
-          <code class="ruby">  def self.bounce_with_attachment(msg, type, attachment_name, statement_items)</code>
+          <code class="ruby">  def self.bounce_with_attachment(msg, type, attachment_base_name, imported_files)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="80">
+        <li class="missed" data-hits="0" data-linenumber="82">
           
           
-          <code class="ruby">    attachment = {</code>
+          <code class="ruby">    imported_files</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="81">
+        <li class="missed" data-hits="0" data-linenumber="83">
           
           
-          <code class="ruby">      :filename =&gt; attachment_name,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="82">
-          
-          
-          <code class="ruby">      :mime_type =&gt; &quot;application/csv&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="83">
-          
-          
-          <code class="ruby">      :content =&gt; StatementItemsHelper.generate_csv(statement_items)</code>
+          <code class="ruby">    attachments = []</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="84">
           
           
-          <code class="ruby">    }</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="85">
+        <li class="missed" data-hits="0" data-linenumber="85">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    imported_files.each { | imported_file |</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="86">
           
           
-          <code class="ruby">    Rails.logger.info &quot;Sending bounce message with attachment: #{ADMIN_EMAIL} - #{msg}&quot;</code>
+          <code class="ruby">      content = StatementItemsHelper.generate_csv(imported_file[:statement_items])</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="87">
+        <li class="never" data-hits="" data-linenumber="87">
           
           
-          <code class="ruby">    BounceIncomingMailer.bounce(ADMIN_EMAIL, &quot;Statement Converter: #{type}&quot;, msg, attachment).deliver</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="88">
           
           
-          <code class="ruby">    BounceIncomingMailer.bounce(ENV[&quot;NOTIFICATION_EMAIL&quot;], &quot;Statement Converter: #{type}&quot;, msg, attachment).deliver if ENV[&quot;NOTIFICATION_EMAIL&quot;] != nil</code>
+          <code class="ruby">      if content.empty?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="89">
+        <li class="missed" data-hits="0" data-linenumber="89">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">        content = &quot;No Items&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="90">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def self.import_file filename, card</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="92">
-          
-          
-          <code class="ruby">    #ROW Starts At 21 (index 20)</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="93">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    lines = IO.readlines(filename)</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="94">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    csv_data = &quot;&quot;</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="95">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    index = 0</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="96">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    index_of_first_line = 0</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="97">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    date_index = nil</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="98">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    date = nil</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
+        <li class="never" data-hits="" data-linenumber="91">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="100">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="92">
           
-          <code class="ruby">    lines.each do |line|</code>
+          
+          <code class="ruby">      attachments.push({</code>
         </li>
       
-        <li class="covered" data-hits="58" data-linenumber="101">
-          <span class="hits">58</span>
+        <li class="never" data-hits="" data-linenumber="93">
           
-          <code class="ruby">      if(line.index(&quot;,&quot;) != nil)</code>
+          
+          <code class="ruby">        :filename =&gt; &quot;#{attachment_base_name}_#{imported_file[:statement_type]}.csv&quot;,</code>
         </li>
       
-        <li class="covered" data-hits="48" data-linenumber="102">
-          <span class="hits">48</span>
+        <li class="never" data-hits="" data-linenumber="94">
           
-          <code class="ruby">        line = line.gsub(&quot;\n&quot;, &quot;&quot;).gsub(&quot;\r&quot;, &quot;&quot;)</code>
+          
+          <code class="ruby">        :mime_type =&gt; &quot;application/csv&quot;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="95">
+          
+          
+          <code class="ruby">        :content =&gt; content</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="96">
+          
+          
+          <code class="ruby">      })</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="97">
+          
+          
+          <code class="ruby">    }</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="98">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="99">
+          
+          
+          <code class="ruby">    Rails.logger.info &quot;Sending bounce message with attachment: #{ADMIN_EMAIL} - #{msg}&quot;</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="100">
+          
+          
+          <code class="ruby">    BounceIncomingMailer.bounce(ADMIN_EMAIL, &quot;Statement Converter: #{type}&quot;, msg, attachments).deliver</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="101">
+          
+          
+          <code class="ruby">    BounceIncomingMailer.bounce(ENV[&quot;NOTIFICATION_EMAIL&quot;], &quot;Statement Converter: #{type}&quot;, msg, attachments).deliver if ENV[&quot;NOTIFICATION_EMAIL&quot;] != nil</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="102">
+          
+          
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="103">
@@ -2174,166 +2186,166 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="104">
+        <li class="covered" data-hits="1" data-linenumber="104">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">        #must not end in &#39;&quot;,&quot;&#39;</code>
+          <code class="ruby">  def self.import_file filename, card</code>
         </li>
       
-        <li class="covered" data-hits="48" data-linenumber="105">
-          <span class="hits">48</span>
+        <li class="never" data-hits="" data-linenumber="105">
           
-          <code class="ruby">        if (line[line.length - 2] + line[line.length - 1]) != &quot;,\&quot;&quot;</code>
+          
+          <code class="ruby">    #ROW Starts At 21 (index 20)</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="106">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="2" data-linenumber="106">
+          <span class="hits">2</span>
           
-          <code class="ruby">          index += 1</code>
+          <code class="ruby">    lines = IO.readlines(filename)</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="107">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="2" data-linenumber="107">
+          <span class="hits">2</span>
           
-          <code class="ruby">          csv_data += line + &quot;\n&quot;</code>
+          <code class="ruby">    csv_data = &quot;&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="108">
+        <li class="covered" data-hits="2" data-linenumber="108">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">    index = 0</code>
         </li>
       
-        <li class="covered" data-hits="46" data-linenumber="109">
-          <span class="hits">46</span>
+        <li class="covered" data-hits="2" data-linenumber="109">
+          <span class="hits">2</span>
           
-          <code class="ruby">          if(line.index(&quot;BALANCE BROUGHT FORWARD&quot;) != nil)</code>
+          <code class="ruby">    index_of_first_line = 0</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="110">
           <span class="hits">2</span>
           
-          <code class="ruby">            index_of_first_line = index</code>
+          <code class="ruby">    date_index = nil</code>
         </li>
       
-        <li class="covered" data-hits="44" data-linenumber="111">
-          <span class="hits">44</span>
+        <li class="covered" data-hits="2" data-linenumber="111">
+          <span class="hits">2</span>
           
-          <code class="ruby">          elsif(line.index(&quot;\&quot;Date:\&quot;,&quot;) != nil)</code>
+          <code class="ruby">    date = nil</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="112">
           <span class="hits">2</span>
           
-          <code class="ruby">            date_index = index - 1</code>
+          <code class="ruby">    types_index = nil</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="113">
+        <li class="covered" data-hits="2" data-linenumber="113">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">          end</code>
+          <code class="ruby">    statement_type = nil</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="114">
           
           
-          <code class="ruby">        end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="115">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="116">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="117">
-          
-          
           <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="115">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    lines.each do |line|</code>
+        </li>
+      
+        <li class="covered" data-hits="58" data-linenumber="116">
+          <span class="hits">58</span>
+          
+          <code class="ruby">      if(line.index(&quot;,&quot;) != nil)</code>
+        </li>
+      
+        <li class="covered" data-hits="48" data-linenumber="117">
+          <span class="hits">48</span>
+          
+          <code class="ruby">        line = line.gsub(&quot;\n&quot;, &quot;&quot;).gsub(&quot;\r&quot;, &quot;&quot;)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="118">
           
           
-          <code class="ruby">    #parse csv</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="119">
-          <span class="hits">2</span>
+        <li class="never" data-hits="" data-linenumber="119">
           
-          <code class="ruby">    rows = CSV.parse(csv_data)</code>
+          
+          <code class="ruby">        #must not end in &#39;&quot;,&quot;&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="120">
+        <li class="covered" data-hits="48" data-linenumber="120">
+          <span class="hits">48</span>
+          
+          <code class="ruby">        if (line[line.length - 2] + line[line.length - 1]) != &quot;,\&quot;&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="46" data-linenumber="121">
+          <span class="hits">46</span>
+          
+          <code class="ruby">          index += 1</code>
+        </li>
+      
+        <li class="covered" data-hits="46" data-linenumber="122">
+          <span class="hits">46</span>
+          
+          <code class="ruby">          csv_data += line + &quot;\n&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="123">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="121">
+        <li class="covered" data-hits="46" data-linenumber="124">
+          <span class="hits">46</span>
           
-          
-          <code class="ruby">    #get date so we can calculate short dates</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="122">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    date = Date.parse(rows[date_index][1])</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="123">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    statement_items = []</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="124">
-          
-          
-          <code class="ruby"></code>
+          <code class="ruby">          if(line.index(&quot;BALANCE BROUGHT FORWARD&quot;) != nil)</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="125">
           <span class="hits">2</span>
           
-          <code class="ruby">    rows[index_of_first_line..100000].each do | row |</code>
+          <code class="ruby">            index_of_first_line = index</code>
         </li>
       
-        <li class="covered" data-hits="16" data-linenumber="126">
-          <span class="hits">16</span>
+        <li class="covered" data-hits="44" data-linenumber="126">
+          <span class="hits">44</span>
           
-          <code class="ruby">      if row[2] != &quot;&quot;</code>
+          <code class="ruby">          elsif(line.index(&quot;\&quot;Date:\&quot;,&quot;) != nil)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="127">
+        <li class="covered" data-hits="2" data-linenumber="127">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">        #calc the actual date (18 December) with no year :(</code>
+          <code class="ruby">            date_index = index - 1</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="128">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="42" data-linenumber="128">
+          <span class="hits">42</span>
           
-          <code class="ruby">        trans_date = Date.parse(row[4] + &quot; &quot; + date.year.to_s)</code>
+          <code class="ruby">          elsif(line.index(&quot;\&quot;Type:\&quot;,&quot;) != nil)</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="129">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="2" data-linenumber="129">
+          <span class="hits">2</span>
           
-          <code class="ruby">        if trans_date &gt; date</code>
+          <code class="ruby">            types_index = index - 1</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="130">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="130">
           
-          <code class="ruby">          trans_date = trans_date.prev_year</code>
+          
+          <code class="ruby">          end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="131">
@@ -2345,13 +2357,13 @@
         <li class="never" data-hits="" data-linenumber="132">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="133">
-          <span class="hits">13</span>
+        <li class="never" data-hits="" data-linenumber="133">
           
-          <code class="ruby">        desc = row[0].gsub(/\W*$/, &quot;&quot;).gsub(&quot;  &quot;, &quot;&quot;)</code>
+          
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="134">
@@ -2360,55 +2372,163 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="135">
-          <span class="hits">13</span>
+        <li class="never" data-hits="" data-linenumber="135">
           
-          <code class="ruby">        statement_item = StatementItem.new(description: desc, amount: row[2], transaction_type: row[3], transaction_date: trans_date, balance: row[5])</code>
+          
+          <code class="ruby">    #parse csv</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="136">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="2" data-linenumber="136">
+          <span class="hits">2</span>
           
-          <code class="ruby">        statement_items &lt;&lt; statement_item</code>
+          <code class="ruby">    rows = CSV.parse(csv_data)</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="137">
-          <span class="hits">13</span>
-          
-          <code class="ruby">        card.statement_items &lt;&lt; statement_item</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="138">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="139">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="140">
+        <li class="never" data-hits="" data-linenumber="137">
           
           
           <code class="ruby"></code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="138">
+          
+          
+          <code class="ruby">    #get date so we can calculate short dates</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="139">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    date = Date.parse(rows[date_index][1])</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="140">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    statement_type = rows[types_index][1]</code>
+        </li>
+      
         <li class="covered" data-hits="2" data-linenumber="141">
           <span class="hits">2</span>
           
-          <code class="ruby">    return statement_items</code>
+          <code class="ruby">    statement_items = []</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="142">
           
           
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="143">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    rows[index_of_first_line..100000].each do | row |</code>
+        </li>
+      
+        <li class="covered" data-hits="16" data-linenumber="144">
+          <span class="hits">16</span>
+          
+          <code class="ruby">      if row[2] != &quot;&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="145">
+          
+          
+          <code class="ruby">        #calc the actual date (18 December) with no year :(</code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="146">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        trans_date = Date.parse(row[4] + &quot; &quot; + date.year.to_s)</code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="147">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        if trans_date &gt; date</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="148">
+          <span class="hits">4</span>
+          
+          <code class="ruby">          trans_date = trans_date.prev_year</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="149">
+          
+          
+          <code class="ruby">        end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="150">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="151">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        desc = row[0].gsub(/\W*$/, &quot;&quot;).gsub(&quot;  &quot;, &quot;&quot;)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="152">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="153">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        statement_item = StatementItem.new(description: desc, amount: row[2], transaction_type: row[3], transaction_date: trans_date, balance: row[5], statement_type: statement_type)</code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="154">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        statement_items &lt;&lt; statement_item</code>
+        </li>
+      
+        <li class="covered" data-hits="13" data-linenumber="155">
+          <span class="hits">13</span>
+          
+          <code class="ruby">        card.statement_items &lt;&lt; statement_item</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="156">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="157">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="158">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="159">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    return { statement_type: statement_type, statement_items: statement_items }</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="160">
+          
+          
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="143">
+        <li class="never" data-hits="" data-linenumber="161">
           
           
           <code class="ruby">end</code>
@@ -2441,7 +2561,7 @@
         <li class="covered" data-hits="1" data-linenumber="2">
           <span class="hits">1</span>
           
-          <code class="ruby">  attr_accessible :amount, :balance, :description, :transaction_date, :transaction_type</code>
+          <code class="ruby">  attr_accessible :amount, :balance, :description, :transaction_date, :transaction_type, :statement_type</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="3">
@@ -4163,8 +4283,8 @@
     <h3>spec/models/email_processor_spec.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>67</b> relevant lines. 
-      <span class="green"><b>67</b> lines covered</span> and
+      <b>72</b> relevant lines. 
+      <span class="green"><b>72</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -4685,7 +4805,7 @@
         <li class="covered" data-hits="1" data-linenumber="86">
           <span class="hits">1</span>
           
-          <code class="ruby">    EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_name, statement_items |</code>
+          <code class="ruby">    EmailProcessor.should_receive(:bounce_with_attachment) do | msg, type, attachment_base_name, imported_files |</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="87">
@@ -4697,136 +4817,190 @@
         <li class="covered" data-hits="1" data-linenumber="88">
           <span class="hits">1</span>
           
-          <code class="ruby">      attachment_name.should == &quot;#{@card.account_name}-c123_#{File.basename(emcs[0].path)}.csv&quot;</code>
+          <code class="ruby">      attachment_base_name.should == &quot;#{@card.account_name}-c123_#{File.basename(emcs[0].path)}&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="89">
           <span class="hits">1</span>
           
-          <code class="ruby">      statement_items.length.should == 13</code>
+          <code class="ruby">      imported_files.length.should == 2</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="90">
           
-          <code class="ruby">      statement_items.should == card.statement_items</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="91">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      #TYPE: MARKETLINK</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="92">
+        <li class="covered" data-hits="1" data-linenumber="92">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">      imported_files[0][:statement_items].length.should == 5</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="93">
           <span class="hits">1</span>
           
-          <code class="ruby">    EmailProcessor.should_receive(:extract_emc_csv_files).and_return(Dir.glob(dir))</code>
+          <code class="ruby">      imported_files[0][:statement_type].should == &quot;MARKETLINK&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="94">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="94">
           
-          <code class="ruby">    EmailProcessor.process(email)</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="95">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      #TYPE: CURRENT ACC</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="96">
           <span class="hits">1</span>
           
-          <code class="ruby">    card.statement_items.length.should == 13</code>
+          <code class="ruby">      imported_files[1][:statement_items].length.should == 8</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="97">
+        <li class="covered" data-hits="1" data-linenumber="97">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      imported_files[1][:statement_type].should == &quot;CURRENT ACC&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="98">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="99">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="98">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    item = card.statement_items[0]</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="99">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    item.description.should == &quot;INTEREST CAPITALISED&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="100">
           <span class="hits">1</span>
           
-          <code class="ruby">    item.balance.should == 93349.47</code>
+          <code class="ruby">    EmailProcessor.should_receive(:extract_emc_csv_files).and_return(Dir.glob(dir))</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="101">
           <span class="hits">1</span>
           
-          <code class="ruby">    item.amount.should == 307.76</code>
+          <code class="ruby">    EmailProcessor.process(email)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="102">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    item.transaction_date.should == Date.parse(&quot;02 December 2013&quot;)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="103">
+        <li class="never" data-hits="" data-linenumber="102">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="104">
+        <li class="covered" data-hits="1" data-linenumber="103">
           <span class="hits">1</span>
           
-          <code class="ruby">    item = card.statement_items[10]</code>
+          <code class="ruby">    card.statement_items.length.should == 13</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="104">
+          
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="105">
           <span class="hits">1</span>
           
-          <code class="ruby">    item.description.should == &quot;CREDIT TRANSFER ABSA BANK MI Madondo&quot;</code>
+          <code class="ruby">    item = card.statement_items[0]</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="106">
           <span class="hits">1</span>
           
-          <code class="ruby">    item.balance.should == 14259.46</code>
+          <code class="ruby">    item.description.should == &quot;INTEREST CAPITALISED&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="107">
           <span class="hits">1</span>
           
-          <code class="ruby">    item.amount.should == 1000</code>
+          <code class="ruby">    item.balance.should == 93349.47</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="108">
           <span class="hits">1</span>
           
+          <code class="ruby">    item.amount.should == 307.76</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="109">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.transaction_date.should == Date.parse(&quot;02 December 2013&quot;)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="110">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.statement_type.should == &quot;MARKETLINK&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="111">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="112">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item = card.statement_items[10]</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="113">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.description.should == &quot;CREDIT TRANSFER ABSA BANK MI Madondo&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="114">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.balance.should == 14259.46</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="115">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.amount.should == 1000</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="116">
+          <span class="hits">1</span>
+          
           <code class="ruby">    item.transaction_date.should == Date.parse(&quot;07 Jan 2014&quot;)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="109">
+        <li class="covered" data-hits="1" data-linenumber="117">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    item.statement_type.should == &quot;CURRENT ACC&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="118">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="110">
+        <li class="never" data-hits="" data-linenumber="119">
           
           
           <code class="ruby">end</code>

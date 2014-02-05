@@ -83,11 +83,11 @@ class CardsController < AppController
   def download_file
     @card = Card.find(params[:id])
 
-    statement_items = @card.statement_items.where("transaction_date >= ? and transaction_date <= ?", params[:from_date], params[:to_date])
+    statement_items = @card.statement_items.where("transaction_date >= ? and transaction_date <= ? and statement_type = ?", params[:from_date], params[:to_date], params[:statement_type])
 
     csv_string = StatementItemsHelper.generate_csv(statement_items)
 
-    filename = "import-file_#{@card.last_three_digits}_#{params[:from_date]}_#{params[:to_date]}.csv"
+    filename = "statement_c#{@card.last_three_digits}_#{params[:statement_type]}_#{params[:from_date]}_#{params[:to_date]}.csv"
     send_data(csv_string, :type => 'text/csv; charset=utf-8;', :filename => filename)
   end
 
