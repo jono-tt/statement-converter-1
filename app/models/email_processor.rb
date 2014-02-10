@@ -140,6 +140,14 @@ class EmailProcessor
     statement_type = rows[types_index][1]
     statement_items = []
 
+    #ADD THE OPENING BALANCE
+    row = rows[index_of_first_line - 1]
+    balance = row[5].gsub(/\W*$/, "").gsub("  ", "")
+    open_balance_item = StatementItem.new(description: "####### OPENING BALANCE: #{balance} #######", amount: "0", transaction_type: "CR", transaction_date: date, balance: balance, statement_type: statement_type)
+    statement_items << open_balance_item
+    card.statement_items << open_balance_item
+
+    #ADD ALL TRANSACTION ROWS
     rows[index_of_first_line..100000].each do | row |
       if row[2] != ""
         #calc the actual date (18 December) with no year :(
@@ -155,6 +163,18 @@ class EmailProcessor
         card.statement_items << statement_item
       end
     end
+
+    #UPDATE OPEN BALANCE DATE
+    if statement_items[1] != nil
+      open_balance_item.transaction_date = statement_items[1].transaction_date
+      open_balance_item.save
+    end
+
+    #ADD CLOSE BALANCE
+    last_item = statement_items[statement_items.length - 1]
+    close_balance_item = StatementItem.new(description: "####### CLOSING BALANCE: #{last_item.balance} #######", amount: "0", transaction_type: "CR", transaction_date: date, balance: last_item.balance, statement_type: statement_type)
+    statement_items << close_balance_item
+    card.statement_items << close_balance_item
 
     return { statement_type: statement_type, statement_items: statement_items }
   end
