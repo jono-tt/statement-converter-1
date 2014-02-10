@@ -142,8 +142,8 @@ class EmailProcessor
 
     #ADD THE OPENING BALANCE
     row = rows[index_of_first_line - 1]
-    balance = row[5].gsub(/\W*$/, "").gsub("  ", "")
-    open_balance_item = StatementItem.new(description: "####### OPENING BALANCE: #{balance} #######", amount: "0", transaction_type: "CR", transaction_date: date, balance: balance, statement_type: statement_type)
+    balance = BigDecimal(row[5].gsub(/^\d*$/, "").gsub("  ", ""), 12)
+    open_balance_item = StatementItem.new(description: "####### OPENING BALANCE: #{balance} #######", amount: "100000000", transaction_type: "CR", transaction_date: date, balance: balance, statement_type: statement_type)
     statement_items << open_balance_item
     card.statement_items << open_balance_item
 
@@ -172,7 +172,7 @@ class EmailProcessor
 
     #ADD CLOSE BALANCE
     last_item = statement_items[statement_items.length - 1]
-    close_balance_item = StatementItem.new(description: "####### CLOSING BALANCE: #{last_item.balance} #######", amount: "0", transaction_type: "CR", transaction_date: date, balance: last_item.balance, statement_type: statement_type)
+    close_balance_item = StatementItem.new(description: "####### CLOSING BALANCE: #{last_item.balance} #######", amount: "100000000", transaction_type: "CR", transaction_date: date, balance: last_item.balance, statement_type: statement_type)
     statement_items << close_balance_item
     card.statement_items << close_balance_item
 

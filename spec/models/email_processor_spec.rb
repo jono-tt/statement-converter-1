@@ -103,9 +103,9 @@ describe EmailProcessor do
     card.statement_items.length.should == 17
 
     item = card.statement_items[0]
-    item.description.should == "####### OPENING BALANCE:  93041.71 #######"
+    item.description.should == "####### OPENING BALANCE: 93041.71 #######"
     item.balance.should == BigDecimal(93041.71, 12)
-    item.amount.should == 0
+    item.amount.should == 100000000
     item.transaction_date.should == Date.parse("02 December 2013")
     item.statement_type.should == "MARKETLINK"
 
@@ -126,7 +126,7 @@ describe EmailProcessor do
     item = card.statement_items[16]
     item.description.should == "####### CLOSING BALANCE: 14439.46 #######"
     item.balance.should == BigDecimal(14439.46, 12)
-    item.amount.should == 0
+    item.amount.should == 100000000
     item.transaction_date.should == Date.parse("13 Jan 2014")
     item.statement_type.should == "CURRENT ACC"
   end
