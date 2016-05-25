@@ -1,10 +1,11 @@
 StatementConverter::Application.routes.draw do
-  resources :cards do
-    member do
-      get :download
-      post :download_file
-    end
+
+  resources :statements do
+ 	 collection do 
+  		post :upload_file
+ 	 end
+
   end
 
-  root :to => 'cards#index'
+  root :to => 'statements#index'
 end

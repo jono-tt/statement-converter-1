@@ -1,6 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 require 'csv'
 require 'rails/all'
+require 'ruby-filemagic'
+require 'mime/types'
+
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line

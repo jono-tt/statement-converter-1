@@ -16,23 +16,18 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-gem 'griddler'
+
 gem "thin", "~> 1.5.0"
-gem 'mysql2', "~> 0.3.11"
-
-group :production do
-  gem 'postmark-rails'
-end
-
-group :development, :test do
-  gem "letter_opener"
-end
+gem 'sqlite3'
+gem 'zip'
+gem 'fileutils'
+gem 'ruby-filemagic'
 
 group :development, :test do
   gem 'rspec-rails', "~> 2.11.4"
   gem 'shoulda-matchers'
   gem "quiet_assets"
-  gem 'pry', require: false
+  gem 'pry'
   gem "capybara", "~> 2.0.0"
   gem 'randexp'
 end
