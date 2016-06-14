@@ -22,6 +22,7 @@ gem 'sqlite3'
 gem 'zip'
 gem 'fileutils'
 gem 'ruby-filemagic'
+gem 'activerecord-mysql2-adapter'
 
 group :development, :test do
   gem 'rspec-rails', "~> 2.11.4"

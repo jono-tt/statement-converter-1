@@ -58,7 +58,8 @@ class AccountStatement
 			#Using gem 'csv' for converting row's columns into "CSV" line
 			output << line.to_csv
 		end
-		output.join("")
+                # HACK FOR ez IMPORTER MISSING THE FIRST 2 LINES
+		"#,,,,,\n#,,,,,\n" + output.join("")
 	end
 
 	private
