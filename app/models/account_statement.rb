@@ -45,6 +45,10 @@ class AccountStatement
 		return items
 	end
 
+        def is_valid?
+                opening_balance_row[2].include? "OPEN"
+        end
+
 	def to_csv
 		lines = [open_balance_line]
 		transactions.each do | transaction |

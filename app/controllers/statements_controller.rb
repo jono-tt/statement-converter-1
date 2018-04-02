@@ -13,7 +13,7 @@ class StatementsController < ApplicationController
   		begin
 	  		file = params[:upload][:datafile]
 
-			account_statements = StatementProcessor.new(file).process
+			account_statements = StatementProcessor.new(file).process.reject { |s| ! s.is_valid? }
 			
 		rescue Exception => e
 			$stderr.puts "An error of type #{e.class} happened, message is : #{e.message}"
