@@ -11,7 +11,8 @@ class StatementTransaction
 	end
 
 	def date
-		Date.parse("#{@opening_balance_date.year.to_s+@line[1][5,2]+@line[1][3,2]}")
+                # 020180301
+                Date.parse(@line[1].to_i.to_s)
 	end
 
 	def abbreviation

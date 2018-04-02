@@ -50,20 +50,18 @@ class AccountStatement
         end
 
 	def to_csv
-		lines = [open_balance_line]
+		lines = [opening_line]
 		transactions.each do | transaction |
 			lines << transaction.to_row_array
 		end
-
-		lines << close_balance_line
 
 		output = []
 		lines.each do |line|
 			#Using gem 'csv' for converting row's columns into "CSV" line
 			output << line.to_csv
 		end
-                # HACK FOR ez IMPORTER MISSING THE FIRST 2 LINES
-		"#,,,,,\n#,,,,,\n" + output.join("")
+
+                output.join("")
 	end
 
 	private
@@ -76,28 +74,24 @@ class AccountStatement
 		@lines[@lines.length - 1]
 	end
 
+        def opening_line
+                ["Acc No:", account_number, "Open Date:", opening_balance_date.strftime("%Y-%m-%d"), "Open Balance:", opening_balance, "Closing Balance:", closing_balance]
+        end
+
+        # for old converter
 	def open_balance_line
-		[opening_balance_date.strftime("%Y-%m-%d"), "1000000000", "", "", "", "####### OPENING BALANCE: R #{opening_balance} #######"]
+		[opening_balance_date.strftime("%Y-%m-%d"), "", opening_balance, "", "", "####### OPENING BALANCE: R #{opening_balance} #######"]
 	end
 	def close_balance_line
-		[closing_balance_date.strftime("%Y-%m-%d"), "1000000000", "", "", "", "####### CLOSING BALANCE: R #{closing_balance} #######"]
+		[closing_balance_date.strftime("%Y-%m-%d"), "", "", closing_balance, "", "####### CLOSING BALANCE: R #{closing_balance} #######"]
 	end
 
 	def opening_balance_date
-		current_year = Date.today.strftime("%Y").to_i
-		open_row = opening_balance_row
-		open_date = Date.parse("#{current_year.to_s+open_row[1][5,2]+open_row[1][3,2]}")
-		open_date = open_date - 365.days if open_date > closing_balance_date
-		open_date
+                Date.parse(opening_balance_row[1].to_i.to_s)
 	end
 
 	def closing_balance_date
-		current_year = Date.today.strftime("%Y").to_i
-		close_row = closing_balance_row
-
-		close_date = Date.parse("#{current_year.to_s+close_row[1][5,2]+close_row[1][3,2]}")
-		close_date = close_date - 365.days unless close_date.past?
-		close_date
+		Date.parse(closing_balance_row[1].to_i.to_s)
 	end
 
 end
